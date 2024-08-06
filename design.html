@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EliteCare Dashboard</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        .sidebar {
+            background-color: #282c34;
+            width: 200px;
+            padding: 20px;
+        }
+
+        .sidebar h3 {
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar li a {
+            display: block;
+            padding: 10px;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar li a:hover {
+            background-color: #343a40;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-header h2 {
+            margin: 0;
+        }
+
+        .dashboard-header .search-bar {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 5px 10px;
+        }
+
+        .dashboard-header .search-bar input {
+            border: none;
+            outline: none;
+            padding: 5px;
+        }
+
+        .dashboard-header .search-bar i {
+            margin-right: 5px;
+        }
+
+        .dashboard-header .user-profile {
+            display: flex;
+            align-items: center;
+        }
+
+        .dashboard-header .user-profile img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .dashboard-header .user-profile span {
+            font-weight: bold;
+        }
+
+        .dashboard-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .dashboard-card h3 {
+            margin-top: 0;
+        }
+
+        .dashboard-card .card-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-card .card-content .value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .dashboard-card .card-content .unit {
+            font-size: 16px;
+            color: #777;
+        }
+
+        .dashboard-card .card-content .icon {
+            color: #777;
+        }
+
+        .dashboard-card .card-content .progress-bar {
+            width: 100%;
+            height: 5px;
+            background-color: #eee;
+            border-radius: 5px;
+        }
+
+        .dashboard-card .card-content .progress-bar .fill {
+            height: 100%;
+            background-color: #4CAF50;
+            border-radius: 5px;
+        }
+
+        .dashboard-card .chart {
+            width: 100%;
+            height: 200px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+        }
+
+        .dashboard-card .chart canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        .dashboard-card .chart .chart-label {
+            font-size: 12px;
+            color: #777;
+            margin-top: 10px;
+        }
+
+        .dashboard-card .chart .chart-legend {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .dashboard-card .chart .chart-legend .legend-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .dashboard-card .chart .chart-legend .legend-item .legend-color {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .dashboard-card .chart .chart-legend .legend-item .legend-text {
+            font-size: 12px;
+            color: #777;
+        }
+
+        .dashboard-card .chart .chart-legend .legend-item:not(:last-child) {
+            margin-right: 20px;
+        }
+
+        .dashboard-card .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .dashboard-card .card-footer .see-all {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        .dashboard-card .card-footer .see-all:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h3>DECCAAN DNA</h3>
+            <ul>
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#">Reports</a></li>
+                <li><a href="#">My Prescriptions</a></li>
+                <li><a href="#">Appointments</a></li>
+                <li><a href="#">Messages</a></li>
+                <li><a href="#">Find A Doctor</a></li>
+                <li><a href="#">Feedback</a></li>
+                <li><a href="#">Settings</a></li>
+                <li><a href="#">Log Out</a></li>
+            </ul>
+            <div class="theme-switch">
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider round"></span>
+                </label>
+                <span class="theme-text">Light</span>
+                <span class="theme-text">Dark</span>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="dashboard-header">
+                <h2>Dashboard</h2>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search here...">
+                </div>
+                <div class="user-profile">
+                    <img src="user.png" alt="Profile">
+                    <span>Robert Fox</span>
+                    <i class="fas fa-angle-down"></i>
+                </div>
+            </div>
+            <div class="dashboard-card">
+                <h3>Welcome Back!, Ronald Richards</h3>
+                <p>Check Your Health Regularly</p>
+                <button class="book-appointment">Book Appointment</button>
+                <div class="heart-image">
+                    <img src="heart.png" alt="Heart">
+                </div>
+            </div>
+            <div class="dashboard-card">
+                <h3>Hemoglobin</h3>
+                <div class="card-content">
+                    <div class="value">16.4</div>
+                    <div class="unit">g/dL</div>
+                    <div class="icon">
+                        <i class="fas fa-arrow-up"></i>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="fill" style="width: 12%;"></div>
+                    </div>
+                </div>
+                <div class="chart">
+                    <canvas id="hemoglobinChart"></canvas>
+                </div>
+            </div>
+            <div class="dashboard-card">
+                <h3>Blood Pressure</h3>
+                <div class="card-content">
+                    <div class="value">89</div>
+                    <div class="unit">g/dL</div>
+                    <div class="icon">
+                        <i class="fas fa-arrow-down"></i>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="fill" style="width: 12%;"></div>
+                    </div>
+                </div>
+                <div class="chart">
+                    <canvas id="bloodPressureChart"></canvas>
+                </div>
+            </div>
+            <div class="dashboard-card">
+                <h3>Doctor's Appointments</h3>
+                <div class="card-content">
+                    <div class="date">02 November 2023</div>
+                    <div class="icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                </div>
+                <div class="appointments-list">
+                    <div class="appointment">
+                        <div class="time">11 am</div>
+                        <div class="doctor">Dentist</div>
+                        <div class="details">Mymensingh Medical Collage Hospital</div>
+                        <div class="doctor-name">Doctor: Jacob Jones, (MBBS, MD, Dentist Specialist)</div>
+                    </div>
+                    <div class="appointment">
+                        <div class="time">12 pm</div>
+                        <div class="doctor">Cardiologist</div>
+                        <div class="details">The Heart Hospital</div>
+                        <div class="doctor-name">Doctor: Dr. John Smith, (MBBS, MD, Cardiologist Specialist)</div>
+                    </div>
+                </div>
+            </div>
+            <div class="dashboard-card">
+                <h3>Regular Dieting Activities</h3>
+                <div class="card-content">
+                    <div class="chart">
+                        <canvas id="dietingActivitiesChart"></canvas>
+                    </div>
+                    <div class="chart-legend">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #663399;"></div>
+                            <div class="legend-text">Healthy Food</div>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #f08080;"></div>
+                            <div class="legend-text">Junk Food</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dashboard-card">
+                <h3>My Prescriptions</h3>
+                <div class="card-content">
+                    <div class="prescriptions-list">
+                        <div class="prescription">
+                            <div class="icon">
+                                <i class="fas fa-file-medical-alt"></i>
+                            </div>
+                            <div class="details">
+                                <h4>Cardiology Prescription</h4>
+                                <span>06/12/2023</span>
+                            </div>
+                            <div class="action">
+                                <i class="fas fa-cloud-download-alt"></i>
+                            </div>
+                        </div>
+                        <div class="prescription">
+                            <div class="icon">
+                                <i class="fas fa-file-medical-alt"></i>
+                            </div>
+                            <div class="details">
+                                <h4>Dentist Prescription</h4>
+                                <span>06/12/2023</span>
+                            </div>
+                            <div class="action">
+                                <i class="fas fa-cloud-download-alt"></i>
+                            </div>
+                        </div>
+                        <div class="prescription">
+                            <div class="icon">
+                                <i class="fas fa-file-medical-alt"></i>
+                            </div>
+                            <div class="details">
+                                <h4>Dentist Prescription</h4>
+                                <span>06/12/2023</span>
+                            </div>
+                            <div class="action">
+                                <i class="fas fa-cloud-download-alt"></i>
+                            </div>
+                        </div>
+                        <div class="prescription">
+                            <div class="icon">
+                                <i class="fas fa-file-medical-alt"></i>
+                            </div>
+                            <div class="details">
+                                <h4>Cardiology Prescription</h4>
+                                <span>06/12/2023</span>
+                            </div>
+                            <div class="action">
+                                <i class="fas fa-cloud-download-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="see-all">See All</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // Hemoglobin Chart
+        const hemoglobinChartCanvas = document.getElementById('hemoglobinChart');
+        const hemoglobinChart = new Chart(hemoglobinChartCanvas, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: 'Hemoglobin Level',
+                    data: [14, 15, 14.5, 15.5, 16, 16.4, 16.2, 16.5, 16.3, 16.7, 16.5, 16.8],
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Blood Pressure Chart
+        const bloodPressureChartCanvas = document.getElementById('bloodPressureChart');
+        const bloodPressureChart = new Chart(bloodPressureChartCanvas, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: 'Blood Pressure',
+                    data: [90, 89, 88, 89, 87, 89, 88, 87, 88, 87, 89, 88],
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Dieting Activities Chart
+        const dietingActivitiesChartCanvas = document.getElementById('dietingActivitiesChart');
+        const dietingActivitiesChart = new Chart(dietingActivitiesChartCanvas, {
+            type: 'bar',
+            data: {
+                labels: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
+                datasets: [{
+                    label: 'Healthy Food',
+                    data: [300, 350, 380, 400, 350, 200, 250, 300, 350, 300, 150, 350],
+                    backgroundColor: 'rgba(102, 51, 153, 0.2)',
+                    borderColor: 'rgba(102, 51, 153, 1)',
+                    borderWidth: 1
+                }, {
+                    label: 'Junk Food',
+                    data: [200, 150, 180, 150, 200, 150, 180, 150, 200, 150, 100, 150],
+                    backgroundColor: 'rgba(240, 128, 128, 0.2)',
+                    borderColor: 'rgba(240, 128, 128, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
